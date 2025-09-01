@@ -175,6 +175,8 @@ SetPal_Overworld:
 	inc a ; a town's palette ID is its map ID + 1
 	ld hl, wPalPacket + 1
 	ld [hld], a
+	ld a, PAL_CINNABAR
+	ld [wPalPacket + 3], a
 	ld de, BlkPacket_WholeScreen
 	ld a, SET_PAL_OVERWORLD
 	ld [wDefaultPaletteCommand], a

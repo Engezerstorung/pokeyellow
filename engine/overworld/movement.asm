@@ -81,9 +81,9 @@ UpdatePlayerSprite:
 	ld c, a
 	ld a, [wGrassTile]
 	cp c
-	ld a, 0
+	ld a, 1
 	jr nz, .next2
-	ld a, OAM_PRIO
+	ld a, OAM_PRIO | 1
 .next2
 	ld [wSpritePlayerStateData2GrassPriority], a
 	ret

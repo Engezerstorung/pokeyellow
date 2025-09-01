@@ -65,7 +65,7 @@ PrepareOAMData::
 	add $5
 	ld e, a
 	ld a, [de] ; [x#SPRITESTATEDATA2_GRASSPRIORITY]
-	and $80
+	and OAM_PRIO | OAM_PALETTE
 	ldh [hSpritePriority], a ; temp store sprite priority
 	pop de
 
@@ -112,14 +112,17 @@ PrepareOAMData::
 	ld [de], a ; tile id
 	inc hl
 	inc e
-	ld a, [hl]
-	bit BIT_SPRITE_UNDER_GRASS, a
-	jr z, .skipPriority
+	push bc
 	ldh a, [hSpritePriority]
+	ld b, a
+	and OAM_PALETTE ; keep palette attribute bits
 	or [hl]
-.skipPriority
-	and $f0
-	bit B_OAM_PAL1, a
+	ld c, a
+	and OAM_YFLIP | OAM_XFLIP ; keep x/y flip attribute bits
+	or b
+	and c
+	pop bc
+	bit B_OAM_PAL1, [hl]
 	jr z, .spriteusesOBP0
 	or OAM_HIGH_PALS
 .spriteusesOBP0
